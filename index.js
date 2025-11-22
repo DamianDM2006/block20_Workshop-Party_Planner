@@ -24,7 +24,6 @@ const getAllParties = async () => {
 
 const getIndivParty = async (id) => {
   try {
-    let id = 8218;
     const response = await fetch(API + "/" + id);
     const responseData = await response.json();
     selectedParties = responseData.data;
@@ -34,10 +33,25 @@ const getIndivParty = async (id) => {
     console.error(err);
   }
 }
-getIndivParty();
+
+const partyList = (party) => {
+  const $li = document.createElement("li");
+    $li.innerHTML = `
+    <a href="#selected">${party.name}</a>
+    `;
+    $li.addEventListener("click", () => getIndivParty(party.id));
+    return $li;
+}
 
 
 // renders list of party names
+const ListofParties = () => {
+  const $ul = document.createElement("ul");
+    $ul.classList.add("parties");
+  const $parties = allParties.map(partyList);
+    $ul.replaceChildren(...$parties);
+  return $ul;
+}
 // selected party (single party information)
     // href: to single party information
 
@@ -66,7 +80,7 @@ const render = () => {
     </section>
   </main>
   `;
-
+$app.querySelector("ListofParties").replaceWith(ListofParties());
 }
 
 const init = () => {
