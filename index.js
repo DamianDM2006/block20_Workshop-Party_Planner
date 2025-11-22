@@ -13,7 +13,6 @@ const getAllParties = async () => {
     const response = await fetch(API);
     const responseData = await response.json();
     allParties = responseData.data;
-    console.log(`allParties`, allParties);
     render();
   } catch (err) {
     console.error(err);
@@ -25,7 +24,6 @@ const getIndivParty = async (id) => {
     const response = await fetch(API + "/" + id);
     const responseData = await response.json();
     selectedParties = responseData.data;
-    console.log(`selectedParties`, selectedParties);
     render();
   } catch (err) {
     console.error(err);
