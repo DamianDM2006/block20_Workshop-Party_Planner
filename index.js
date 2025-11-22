@@ -89,8 +89,8 @@ const render = () => {
   $app.querySelector("IndivPartyDetails").replaceWith(displayDetails());
 };
 
-const init = () => {
-  getAllParties();
+const init = async () => {
+  await getAllParties();
   render();
 };
 init();
