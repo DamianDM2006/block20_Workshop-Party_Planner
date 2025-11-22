@@ -4,8 +4,6 @@ const COHORT = "/2510-FTB-CT-WEB-PT";
 const RESOURCE = "/events";
 const API = BASE + COHORT + RESOURCE;
 
-// API documentation = https://fsa-crud-2aa9294fe819.herokuapp.com/api/#tag/Events
-
 // === STATE ====
 let allParties = [];
 let selectedParties;
@@ -17,10 +15,10 @@ const getAllParties = async () => {
     allParties = responseData.data;
     console.log(`allParties`, allParties);
     render();
-  } catch(err) {
+  } catch (err) {
     console.error(err);
   }
-}
+};
 
 const getIndivParty = async (id) => {
   try {
@@ -28,42 +26,51 @@ const getIndivParty = async (id) => {
     const responseData = await response.json();
     selectedParties = responseData.data;
     console.log(`selectedParties`, selectedParties);
-    render ();
-  } catch(err) {
+    render();
+  } catch (err) {
     console.error(err);
   }
-}
+};
 
 const partyList = (party) => {
   const $li = document.createElement("li");
-    $li.innerHTML = `
+  $li.innerHTML = `
     <a href="#selected">${party.name}</a>
     `;
-    $li.addEventListener("click", () => getIndivParty(party.id));
-    return $li;
-}
+  $li.addEventListener("click", () => getIndivParty(party.id));
+  return $li;
+};
 
-
-// renders list of party names
 const ListofParties = () => {
   const $ul = document.createElement("ul");
-    $ul.classList.add("parties");
+  $ul.classList.add("parties");
   const $parties = allParties.map(partyList);
-    $ul.replaceChildren(...$parties);
+  $ul.replaceChildren(...$parties);
   return $ul;
-}
-// selected party (single party information)
-    // href: to single party information
+};
 
-// renders ---- of selected party 
-    // name
-    // id
-    // date
-    // description
-    // location
+const displayDetails = () => {
+  if (!selectedParties) {
+    const $p = document.createElement("p");
+    $p.textContent = "Please, choose a FUNction to learn more.";
+    return $p;
+  }
 
-// if no selected party then
-    // message: please select a party
+  const $party = document.createElement("section");
+  $party.classList.add("party");
+  $party.innerHTML = `
+      <h3>${selectedParties.name}</h3>
+      <h4>Date and Time of the Event:</h4>
+        <p>${selectedParties.date}
+          <small> (We are expecting a considerable turnout from our U.S. Navy and Coast Guard community) </small>
+        </p>
+        <p>${selectedParties.description}</p>
+        <p><strong>Address:</strong>  ${selectedParties.location}</p>
+        <p>Please, reference event ID: <small>== ${selectedParties.id} ==</small> when enrolling.</p>
+
+      `;
+  return $party;
+};
 
 const render = () => {
   const $app = document.querySelector("#app");
@@ -80,18 +87,12 @@ const render = () => {
     </section>
   </main>
   `;
-$app.querySelector("ListofParties").replaceWith(ListofParties());
-}
+  $app.querySelector("ListofParties").replaceWith(ListofParties());
+  $app.querySelector("IndivPartyDetails").replaceWith(displayDetails());
+};
 
 const init = () => {
   getAllParties();
   render();
-}
+};
 init();
-
-//  ***=== EXTRA ===***
-    // selected party is styled differently
-    // view guests who have RSVP'ed to selected party
-        // fetch from API /rsvps
-        // fetch from API /guests
-
