@@ -52,6 +52,20 @@ getIndivParty();
     // message: please select a party
 
 const render = () => {
+  const $app = document.querySelector("#app");
+  $app.innerHTML = `
+  <h1>Plan Your Next Social Event</h1>
+  <main>
+    <section>
+      <h2>Upcoming FUNctions</h2>
+      <ListofParties></ListofParties>
+    </section>
+    <section id="selected">
+      <h2>Event Details</h2>
+      <IndivPartyDetails></IndivPartyDetails>
+    </section>
+  </main>
+  `;
 
 }
 
